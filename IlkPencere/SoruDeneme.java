@@ -10,6 +10,10 @@ import javax.swing.JRadioButton;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 public class SoruDeneme extends JPanel implements ActionListener{
 
     JLabel soruMetniLabel,skorLabel;
@@ -111,11 +115,26 @@ public class SoruDeneme extends JPanel implements ActionListener{
         
     }
     public void sorularıOlustur(){
-        sorular[0] = new Soru("Hangisi bir programlama dili değildir?","java","python","c++","py",Soru.Cevap.CEVAP_D);
-        sorular[1] = new Soru("Hangisi bir programlama dili değildir?","java","python","c++","py",Soru.Cevap.CEVAP_D);
-        sorular[2] = new Soru("Hangisi bir programlama dili değildir?","java","python","c++","py",Soru.Cevap.CEVAP_D);
-        sorular[3] = new Soru("Hangisi bir programlama dili değildir?","java","python","c++","py",Soru.Cevap.CEVAP_D);
-        sorular[4] = new Soru("Hangisi bir programlama dili değildir?","java","python","c++","py",Soru.Cevap.CEVAP_D);
+        
+        try
+        {
+            FileReader dosyaOkuyucu = new FileReader("//home//blgc//Masaüstü//Java-Examples//IlkPencere//soru");
+            BufferedReader okuyucu  = new BufferedReader(dosyaOkuyucu); //sıralı bilgi içeren dosyaları okumak için
+
+            String satir = okuyucu.readLine();
+            System.out.println(satir);
+            System.out.println(okuyucu.readLine());
+            System.out.println(okuyucu.readLine());
+
+
+            okuyucu.close();
+            dosyaOkuyucu.close();
+        }
+        catch(IOException e)
+        {
+            e.printStackTrace();
+        }
+        
         
     }
     public void soruyuGoster(int soruNo){
