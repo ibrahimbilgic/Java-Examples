@@ -14,8 +14,9 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-public class SoruDeneme extends JPanel implements ActionListener{
 
+public class SoruDeneme extends JPanel implements ActionListener{
+    JFrame frameReferans;
     JLabel soruMetniLabel,skorLabel;
     JRadioButton cevapA,cevapB,cevapC,cevapD;
     JButton onayButton;
@@ -24,13 +25,12 @@ public class SoruDeneme extends JPanel implements ActionListener{
     Soru[] sorular = new Soru[5];
     int gecerliSoru = 0;
     int skor = 0;
-    int maxSoru = 5;
+    int maxSoru = 0;
 
-    public SoruDeneme() {
+    public SoruDeneme(JFrame frame) {
+        frameReferans = frame;
 
-        //Elemanları oluşturma kısmı..
-
-        
+        //Elemanları oluşturma kısmı.. 
         soruMetniLabel = new JLabel();
         skorLabel = new JLabel("Skor: " + skor);
         cevapA = new JRadioButton();
@@ -67,22 +67,18 @@ public class SoruDeneme extends JPanel implements ActionListener{
         if(cevapA.isSelected())
         {
             cevapDogruMu = cevapKontrol(Soru.Cevap.CEVAP_A);
-            cevapA.setSelected(true);
         }
         else if(cevapB.isSelected())
         {
             cevapDogruMu = cevapKontrol(Soru.Cevap.CEVAP_B);
-            cevapB.setSelected(false);
         }
         else if(cevapC.isSelected())
         {
             cevapDogruMu = cevapKontrol(Soru.Cevap.CEVAP_C);
-            cevapC.setSelected(false);
         }
         else if(cevapD.isSelected())
         {
             cevapDogruMu = cevapKontrol(Soru.Cevap.CEVAP_D);
-            cevapD.setSelected(false);
         }
         else
         {
@@ -110,9 +106,7 @@ public class SoruDeneme extends JPanel implements ActionListener{
         {
             JOptionPane.showMessageDialog(this, "oyun bitti. Skorun: "+skor);
         }
-        
-        
-        
+        cevaplar.clearSelection();   
     }
     public void sorularıOlustur(){
         
@@ -121,11 +115,35 @@ public class SoruDeneme extends JPanel implements ActionListener{
             FileReader dosyaOkuyucu = new FileReader("//home//blgc//Masaüstü//Java-Examples//IlkPencere//soru");
             BufferedReader okuyucu  = new BufferedReader(dosyaOkuyucu); //sıralı bilgi içeren dosyaları okumak için
 
-            String satir = okuyucu.readLine();
-            System.out.println(satir);
-            System.out.println(okuyucu.readLine());
-            System.out.println(okuyucu.readLine());
+            String satir;
 
+            while((satir = okuyucu.readLine()) != null){
+                String soruMetni = satir;
+                String secenekA = okuyucu.readLine();
+                String secenekB = okuyucu.readLine();
+                String secenekC = okuyucu.readLine();
+                String secenekD = okuyucu.readLine();
+                String dogruCevapMetni = okuyucu.readLine();
+
+                Soru.Cevap dogruCevap = null;
+
+                if(dogruCevapMetni.equalsIgnoreCase("A")){
+                    dogruCevap = Soru.Cevap.CEVAP_A;
+                }
+                else if(dogruCevapMetni.equalsIgnoreCase("B")){
+                    dogruCevap = Soru.Cevap.CEVAP_B;
+                }
+                else if(dogruCevapMetni.equalsIgnoreCase("C")){
+                    dogruCevap = Soru.Cevap.CEVAP_C;
+                }
+                else if(dogruCevapMetni.equalsIgnoreCase("D")){
+                    dogruCevap = Soru.Cevap.CEVAP_D;
+                }
+                if(dogruCevap != null){
+                    sorular[maxSoru] = new Soru(soruMetni,secenekA,secenekB,secenekC,secenekD,dogruCevap);
+                    maxSoru++;
+                }
+            }
 
             okuyucu.close();
             dosyaOkuyucu.close();
@@ -143,17 +161,17 @@ public class SoruDeneme extends JPanel implements ActionListener{
         cevapB.setText(sorular[soruNo].secenekB);
         cevapC.setText(sorular[soruNo].secenekC);
         cevapD.setText(sorular[soruNo].secenekD);
+        frameReferans.pack();
 
     }
     public boolean cevapKontrol(Soru.Cevap verilenCevap){
         return sorular[gecerliSoru].cevapKontrol(verilenCevap);
     }
     public static void main(String[] args) {
-        JFrame frame = new JFrame();
-        SoruDeneme sd = new SoruDeneme();        
-        frame.add(sd);
+        JFrame frame = new JFrame();    
+        frame.add(new SoruDeneme(frame));
         frame.setVisible(true);
-        frame.setSize(640,480);
+        frame.setBounds(100,100,200,150);
 
     }
     
