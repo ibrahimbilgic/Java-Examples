@@ -11,11 +11,11 @@ public class TxtRead {
     static ArrayList<Records> listRecords = new ArrayList<>();
     ArrayList<Integer> tempRecordGroup = new ArrayList<>();
     ArrayList<Records> list = new ArrayList<>();
-    ArrayList<String> listTemp = new ArrayList<String>();
+    ArrayList<String> listTemp = new ArrayList<>();
     LocalDate tempYear;
     int i = 2;
 
-    public TxtRead(String path){ //Constructer
+    public TxtRead(String path){ //constructor
         listRecords.addAll(readTxt(path));
     }
 
@@ -83,20 +83,20 @@ public class TxtRead {
         }
         System.out.println("Calistim"); //çalışıp çalışmadığını gör...
     }
-    public static void main(String[] args) throws FileNotFoundException{ //FileNotException düzelt..
-        String path = "/home/blgc/Masaüstü/VisProProject/city_populations.txt";
+    
+    /*public static void main(String[] args) throws FileNotFoundException{ //FileNotException düzelt..
+        String path = "/home/blgc/Masaüstü/VisProProject/city_populations (kopya).txt";
         TxtRead dene = new TxtRead(path);
     
         //System.out.println(listRecords.get(21670).getValue());
         //System.out.println(listRecords.get(21671).getValue());
         /*for(int i=0; i<15;i++){
             System.out.println(listRecords.get(i));
-        }*/
+        }
         dene.sort();
         for(int i=0;i<listRecords.size();i++){
             System.out.println(listRecords.get(i));
         }
-
         //System.out.println(listRecords.size()); 
-    }
+    }*/
 }
