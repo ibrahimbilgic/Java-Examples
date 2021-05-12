@@ -78,12 +78,13 @@ public class TxtRead {
         int count = 0;
         for(int i=0;i<tempRecordGroup.size();i++){
             Collections.sort(listRecords.subList(count, count+tempRecordGroup.get(i)));
+            Collections.reverse(listRecords.subList(count, count+tempRecordGroup.get(i)));
             count += tempRecordGroup.get(i);
         }
         System.out.println("Calistim"); //çalışıp çalışmadığını gör...
     }
     public static void main(String[] args) throws FileNotFoundException{ //FileNotException düzelt..
-        String path = "/home/blgc/Masaüstü/VisProProject/city_populations (kopya).txt";
+        String path = "/home/blgc/Masaüstü/VisProProject/city_populations.txt";
         TxtRead dene = new TxtRead(path);
     
         //System.out.println(listRecords.get(21670).getValue());
