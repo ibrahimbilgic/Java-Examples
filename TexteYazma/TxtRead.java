@@ -9,20 +9,17 @@ import java.util.regex.Pattern;
 
 public class TxtRead {
     static ArrayList<Records> listRecords = new ArrayList<>();
-    
-    public TxtRead(String path){
+    ArrayList<Integer> tempRecordGroup = new ArrayList<>();
+    ArrayList<Records> list = new ArrayList<>();
+    ArrayList<String> listTemp = new ArrayList<String>();
+    LocalDate tempYear;
+    int i = 2;
+
+    public TxtRead(String path){ //Constructer
         listRecords.addAll(readTxt(path));
-        //System.out.println(readTxt(path).get(0).getCategory());
     }
 
     public ArrayList<Records> readTxt(String path){
-                
-        ArrayList<Records> list = new ArrayList<>();
-        ArrayList<String> listTemp = new ArrayList<String>();
-        ArrayList<Integer> tempRecordGroup = new ArrayList<>();
-        LocalDate tempYear;
-        int i = 2;
-    
         File file = new File(path);
         Scanner scan;
         try {
@@ -31,9 +28,6 @@ public class TxtRead {
             String line;
             String title = scan.nextLine();
             String xAxis = scan.nextLine();
-
-            //System.out.println(Title); // to see title
-            //System.out.println(xAxis);  // to see xAxis
              
             while(scan.hasNext()){
                 line = scan.nextLine();
@@ -81,14 +75,27 @@ public class TxtRead {
         return list;
     }
     public void sort(){
-        Collections.sort(listRecords);
+        int count = 0;
+        for(int i=0;i<tempRecordGroup.size();i++){
+            Collections.sort(listRecords.subList(count, count+tempRecordGroup.get(i)));
+            count += tempRecordGroup.get(i);
+        }
+        System.out.println("Calistim"); //çalışıp çalışmadığını gör...
     }
-
-
     public static void main(String[] args) throws FileNotFoundException{ //FileNotException düzelt..
-        String path = "/home/blgc/Masaüstü/VisProProject/brand_values.txt";
+        String path = "/home/blgc/Masaüstü/VisProProject/city_populations (kopya).txt";
         TxtRead dene = new TxtRead(path);
-        listRecords.sort(null); // null problem !!!
-        System.out.println(listRecords.get(21605).getValue());
+    
+        //System.out.println(listRecords.get(21670).getValue());
+        //System.out.println(listRecords.get(21671).getValue());
+        /*for(int i=0; i<15;i++){
+            System.out.println(listRecords.get(i));
+        }*/
+        dene.sort();
+        for(int i=0;i<listRecords.size();i++){
+            System.out.println(listRecords.get(i));
+        }
+
+        //System.out.println(listRecords.size()); 
     }
 }

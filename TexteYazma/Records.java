@@ -45,6 +45,7 @@ public class Records implements Comparable<Records>{
     @Override
     public int compareTo(Records other){
         return Integer.compare(this.value, other.value);
+        //return this.year.compareTo(other.year);
     }
 
 }
