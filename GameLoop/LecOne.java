@@ -9,14 +9,22 @@ public class LecOne extends JFrame{
     private int wHeight = 640;
     private int wWidth = 480;
     private Insets ins;
-    private int targetFPS = 30;
+    private int targetFPS = 60;
     private BufferedImage bufferedImage;
     private boolean isGameCont = true;
+
+    private int x = 10;
+    private int y = 10;
+    private long fpsSysOut = 0;
+    private int currentFps = 0;
+
+    Ball ball = null;
     public static void main(String[] args) {
         LecOne game = new LecOne();
         game.loop();
         
     }
+
 
     private void loop() {
         start();
@@ -28,12 +36,33 @@ public class LecOne extends JFrame{
             
             long currentLoopTime = System.nanoTime();
             long loopTime = currentLoopTime - lastLoopTime;
-             
+            
+            lastLoopTime = currentLoopTime;
+
+            double timeVar = loopTime / targetLoopTime; 
+
+            currentFps++;
+            fpsSysOut = fpsSysOut + loopTime;
+            if(fpsSysOut >= 1000000000){
+                System.out.println("fps: "+currentFps);
+                fpsSysOut = 0;
+                currentFps = 0;
+            }
             //Update
-            gameUpdate();
+            gameUpdate(timeVar);
 
             //Render
             gameGraphicUpdate();
+
+            long extraNanoTime = targetLoopTime - (System.nanoTime() - currentLoopTime);
+            try {
+                if(extraNanoTime > 0){
+                    Thread.sleep(extraNanoTime/1000000);
+                }
+                
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
 
     }
@@ -48,13 +77,14 @@ public class LecOne extends JFrame{
         bufferGraphics.fillRect(0, 0, wHeight, wWidth);
 
         bufferGraphics.setColor(Color.BLACK);
-        bufferGraphics.fillRect(20, 20, 30, 30);
+        ball.display(bufferGraphics);
 
         //Buffer -> Frame -> Paint
         frameGraphics.drawImage(bufferedImage,ins.left,ins.top,this);
     }
 
-    private void gameUpdate() {
+    private void gameUpdate(double timeVar) {
+        ball.update(timeVar);
     }
 
     private void start() {
@@ -66,6 +96,11 @@ public class LecOne extends JFrame{
         ins = getInsets();
         setSize(wHeight,wWidth);
         bufferedImage = new BufferedImage(wHeight,wWidth,BufferedImage.TYPE_INT_RGB);
+
+        ball = new Ball();
+        ball.x = 30;
+        ball.y = 20;
+
 
         /*
         System.out.println(getInsets().bottom);
