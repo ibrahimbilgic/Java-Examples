@@ -18,7 +18,8 @@ public class LecOne extends JFrame{
     private long fpsSysOut = 0;
     private int currentFps = 0;
 
-    Ball ball = null;
+    Ball[] ball = null;
+    int ballNum = 10; 
     public static void main(String[] args) {
         LecOne game = new LecOne();
         game.loop();
@@ -39,7 +40,7 @@ public class LecOne extends JFrame{
             
             lastLoopTime = currentLoopTime;
 
-            double timeVar = loopTime / targetLoopTime; 
+            double timeVar = (double)loopTime / (double)targetLoopTime; 
 
             currentFps++;
             fpsSysOut = fpsSysOut + loopTime;
@@ -77,14 +78,19 @@ public class LecOne extends JFrame{
         bufferGraphics.fillRect(0, 0, wHeight, wWidth);
 
         bufferGraphics.setColor(Color.BLACK);
-        ball.display(bufferGraphics);
+        for(int i=0;i<ballNum;i++){
+            ball[i].display(bufferGraphics); 
+        }
+        
 
         //Buffer -> Frame -> Paint
         frameGraphics.drawImage(bufferedImage,ins.left,ins.top,this);
     }
 
     private void gameUpdate(double timeVar) {
-        ball.update(timeVar);
+        for(int i=0;i<ballNum;i++){
+            ball[i].update(timeVar); 
+        }
     }
 
     private void start() {
@@ -97,9 +103,17 @@ public class LecOne extends JFrame{
         setSize(wHeight,wWidth);
         bufferedImage = new BufferedImage(wHeight,wWidth,BufferedImage.TYPE_INT_RGB);
 
-        ball = new Ball();
-        ball.x = 30;
-        ball.y = 20;
+        ball= new Ball[ballNum];
+        for(int i=0;i<ballNum;i++){
+            ball[i] = new Ball();
+            ball[i].x = Math.random()*640;
+            ball[i].y = Math.random()*300; 
+            ball[i].fx = Math.random()*10;
+            ball[i].fy = Math.random()*10;
+
+        }
+        
+        
 
 
         /*
