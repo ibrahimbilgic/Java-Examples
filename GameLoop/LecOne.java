@@ -2,8 +2,11 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Insets;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 
 import javax.swing.JFrame;
+
+import jdk.jfr.Percentage;
 
 public class LecOne extends JFrame{
     private int wHeight = 640;
@@ -18,7 +21,7 @@ public class LecOne extends JFrame{
     private long fpsSysOut = 0;
     private int currentFps = 0;
 
-    Ball[] ball = null;
+    PhysicEngine pEngine = new PhysicEngine();
     int ballNum = 10; 
     public static void main(String[] args) {
         LecOne game = new LecOne();
@@ -78,9 +81,7 @@ public class LecOne extends JFrame{
         bufferGraphics.fillRect(0, 0, wHeight, wWidth);
 
         bufferGraphics.setColor(Color.BLACK);
-        for(int i=0;i<ballNum;i++){
-            ball[i].display(bufferGraphics); 
-        }
+        pEngine.display(bufferGraphics);
         
 
         //Buffer -> Frame -> Paint
@@ -89,7 +90,7 @@ public class LecOne extends JFrame{
 
     private void gameUpdate(double timeVar) {
         for(int i=0;i<ballNum;i++){
-            ball[i].update(timeVar); 
+            pEngine.update(timeVar); 
         }
     }
 
@@ -103,14 +104,11 @@ public class LecOne extends JFrame{
         setSize(wHeight,wWidth);
         bufferedImage = new BufferedImage(wHeight,wWidth,BufferedImage.TYPE_INT_RGB);
 
-        ball= new Ball[ballNum];
+        
         for(int i=0;i<ballNum;i++){
-            ball[i] = new Ball();
-            ball[i].x = Math.random()*640;
-            ball[i].y = Math.random()*300; 
-            ball[i].fx = Math.random()*10;
-            ball[i].fy = Math.random()*10;
-
+            pEngine.addElement(new Ball(Math.random()*640, Math.random()*300, 
+            Math.random()*10, Math.random()*10, (Math.random()*29)+1, (Math.random()*29)+1, (Math.random()*29)+1));
+            
         }
         
         
