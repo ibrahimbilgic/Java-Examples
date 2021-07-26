@@ -89,9 +89,7 @@ public class LecOne extends JFrame{
     }
 
     private void gameUpdate(double timeVar) {
-        for(int i=0;i<ballNum;i++){
-            pEngine.update(timeVar); 
-        }
+        pEngine.update(timeVar);
     }
 
     private void start() {
