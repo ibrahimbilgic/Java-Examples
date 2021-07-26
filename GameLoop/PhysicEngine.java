@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.awt.Color;
 import java.awt.Graphics;
 
 public class PhysicEngine {
@@ -10,7 +11,6 @@ public class PhysicEngine {
     int maxY = 480;
     int minX = 0;
     int minY = 0;
-
 
     public PhysicEngine() {
         eForGames = new ArrayList<>();
@@ -26,6 +26,7 @@ public class PhysicEngine {
             PhysicForGame e = it.next();
             e.display(g);
         }
+        
         //g.drawOval((int)x, (int)y, (int)w, (int)h);
     }
 
@@ -53,25 +54,30 @@ public class PhysicEngine {
                     e.vy = -e.vy;
                 }
     
+            }
+            else if(e.y <= minY){
+                e.vy = e.vy + g * d;
+                e.vy = -e.vy;
+                e.y = minY;
             } 
             else{
                 e.vy = e.vy + g * d;
             }
     
-            if(e.x > maxX - e.x){
+            if(e.x >= maxX - e.w){
                 e.vx = e.vx - e.m * d * 0.2;
                 if(e.vx<speedBorder){
                     e.vx = 0;
                 }
-                e.x = maxX - e.h;
+                e.x = maxX - e.w;
                 e.vx = -e.vx;
             }
-            else if(e.x<minX){
+            else if(e.x <= minX){
                 e.vx = e.vx + e.m * d * 0.2;
-                if(e.vx > - speedBorder){
+                if(e.vx >= - speedBorder){
                     e.vx = minX;
                 }
-                e.x = 0;
+                e.x = minX;
                 e.vx = -e.vx;
             }
         }
